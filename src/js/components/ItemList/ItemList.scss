@@ -1,0 +1,17 @@
+@import '../../../assets/css/variables.scss';
+
+.item-list {
+
+  font-family: Comfortaa;
+  width: 100%;
+  padding: 0;
+  padding: 10px;
+  background-color: $main-black;
+  border-radius: 8px;
+  margin-top: 20px;
+  list-style: none;
+
+  &__item {
+    border-bottom: 1px solid lighten($color: $main-black, $amount: 10%);
+  }
+}

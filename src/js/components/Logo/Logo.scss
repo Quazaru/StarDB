@@ -1,0 +1,21 @@
+@import '../../../assets/css/variables.scss';
+.main-logo {
+  color: $sub-gray;
+  font-size: 35px;
+  font-family: 'ShareTechMono';
+  position: relative;
+  &__star {
+    color: lighten($color: $sub-gray, $amount: 15%);
+    position: absolute;
+    animation: 2s smoothRotate cubic-bezier(.35,.57,.79,.55) infinite ;
+  }
+}
+@keyframes smoothRotate{
+  0% {
+    transform:  rotate(0);
+
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
