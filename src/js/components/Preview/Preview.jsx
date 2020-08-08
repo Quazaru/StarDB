@@ -13,18 +13,18 @@ class Preview extends React.Component {
 
   updateData() {
     if (!this.state.currentData) {
-      const { tagName } = this.props;
+      const { tabName } = this.props;
       const { id } = this.state;
       const service = new SwapiService();
-      service.getElement(tagName, id)
+      service.getElement(tabName, id)
         .then((res) => this.setState({ currentData: { ...res } }));
     }
   }
 
   render() {
     this.updateData();
-    const { tagName } = this.props;
-    const { infoList, img = '../../../assets/img/planet.svg' } = renderInfo(tagName, this.state.currentData);
+    const { tabName } = this.props;
+    const { infoList, img = '../../../assets/img/planet.svg' } = renderInfo(tabName, this.state.currentData);
     return (
       <div className="preview">
         <div className="preview__img">

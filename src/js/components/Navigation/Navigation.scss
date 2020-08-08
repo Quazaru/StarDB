@@ -1,7 +1,7 @@
 @import '../../../assets/css/variables.scss';
 
 .navigation {
-  margin-top: 10px;
+  text-align: center;
   font-family: Comfortaa;
   font-size: 20px;
   padding: 0;
@@ -10,6 +10,7 @@
   flex-wrap: wrap;
   justify-content: space-around;
   list-style: none;
+  margin-top: 10px;
   &__item {
     position: relative;
     width: 15%;

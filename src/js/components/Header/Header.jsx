@@ -5,17 +5,10 @@ import Logo from '../Logo/Logo.jsx';
 import Navigation from '../Navigation/Navigation.jsx';
 
 const Header = (props) => {
-  const tags = [
-    'Planets',
-  ];
-
-  const elements = tags.map((el) => {
-
-  });
   return (
     <header>
       <Logo />
-      <Navigation />
+      <Navigation onTabChange={props.onTabChange} currentTab={props.currentTab}/>
     </header>
   );
 };

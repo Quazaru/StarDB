@@ -21,7 +21,8 @@ export default class App extends React.Component {
 
   changeTab(tab) {
     this.setState(({ currentTab }) => {
-      cosnt newTab = tab.toLowerCase();
+      const newTab = tab.toLowerCase();
+      return { currentTab: newTab };
     });
   }
 
@@ -30,7 +31,7 @@ export default class App extends React.Component {
     return (
       <div className="container">
         <Header currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
-        <Preview tagName={currentTab} id={currentId} />
+        <Preview tabName={currentTab} id={currentId} />
         <ItemList />
       </div>
     );
