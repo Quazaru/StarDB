@@ -5,7 +5,6 @@ import './Navigation.scss';
 
 class Navigation extends React.Component {
   renderNav(data, active) {
-    console.log(active);
     const elements = data.map((el) => {
       if (active === el.toLowerCase()) {
         return (
@@ -36,8 +35,6 @@ class Navigation extends React.Component {
       'Main Page',
       'People',
       'Planets',
-      'Starships',
-      'Vehicles',
       'Species',
     ];
     const navElements = this.renderNav(tabs, this.props.currentTab);

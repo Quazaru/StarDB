@@ -14,8 +14,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'planets',
-      currentId: 1,
+      currentTab: 'main page',
+      currentId: 30,
     };
   }
 

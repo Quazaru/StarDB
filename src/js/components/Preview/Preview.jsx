@@ -2,27 +2,32 @@ import React from 'react';
 import './Preview.scss';
 import SwapiService from '../../modules/SwapiService';
 import renderInfo from '../../modules/renderInfo.jsx';
+
+
 class Preview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tabName: this.props.tabName,
       id: this.props.id,
       currentData: false,
     };
   }
 
-  updateData() {
-    if (!this.state.currentData) {
-      const { tabName } = this.props;
-      const { id } = this.state;
-      const service = new SwapiService();
-      service.getElement(tabName, id)
-        .then((res) => this.setState({ currentData: { ...res } }));
-    }
+  updateData(service) {
+    console.log('alsdfk');
+    const { tabName } = this.props;
+    this.setState({tabName: tabName});
+    const { id } = this.state;
+    service.getElement(tabName, id)
+      .then((res) => this.setState({ currentData: { ...res } }));
   }
 
   render() {
-    this.updateData();
+    if (this.props.tabName !== this.state.tabName) {
+      const service = new SwapiService();
+      this.updateData(service);
+    }
     const { tabName } = this.props;
     const { infoList, img = '../../../assets/img/planet.svg' } = renderInfo(tabName, this.state.currentData);
     return (

@@ -1,6 +1,21 @@
 import React from 'react';
 
 const renderInfo = (tag, obj) => {
+  if (tag === 'main page') {
+    return {
+      infoList: (
+       <div className="main-page">
+         <div className="main-page__header">
+           <h2>Welcome to Starchive!</h2>
+         </div>
+         <div className="main-page__body">
+           <p>Click on the tabs to start!</p>
+         </div>
+       </div>
+      ),
+      img: '../../../assets/img/starship.svg',
+    };
+  }
   if (!obj) {
     return {
       infoList: (
@@ -9,7 +24,7 @@ const renderInfo = (tag, obj) => {
         </div>
       ),
       img: '../../../assets/img/page-not-found.svg',
-    }
+    };
   }
   if (tag === 'planets') {
     const {
@@ -28,6 +43,11 @@ const renderInfo = (tag, obj) => {
             Rotation period
             {' '}
             <span>{rotationPeriod}</span>
+          </li>
+          <li className="preview__field">
+            Orbital period
+            {' '}
+            <span>{orbitalPeriod}</span>
           </li>
           <li className="preview__field">
             Population:
@@ -99,100 +119,6 @@ const renderInfo = (tag, obj) => {
         </ul>
       ),
       img: '../../../assets/img/user.svg',
-    };
-  } if (tag === 'starships') {
-    const {
-      cost, hyperdrive, length, name, manufacturer, model, passengers,
-    } = obj;
-    return {
-      infoList: (
-        <ul className="preview__list">
-
-          <li className="preview__field">
-            Name:
-            {' '}
-            <span>{name}</span>
-          </li>
-          <li className="preview__field">
-            Cost :
-            {' '}
-            <span>{cost}</span>
-          </li>
-          <li className="preview__field">
-            Hyperdrive:
-            {' '}
-            <span>{hyperdrive}</span>
-          </li>
-          <li className="preview__field">
-            Length:
-            {' '}
-            <span>{length}</span>
-          </li>
-          <li className="preview__field">
-            Manufacturer:
-            {' '}
-            <span>{manufacturer}</span>
-          </li>
-          <li className="preview__field">
-            Model:
-            {' '}
-            <span>{model}</span>
-          </li>
-          <li className="preview__field">
-            Passengers:
-            {' '}
-            <span>{passengers}</span>
-          </li>
-        </ul>
-      ),
-      img: '../../../assets/img/motor.svg',
-    };
-  } if (tag === 'vehicles') {
-    const {
-      cost, hyperdrive, length, name, manufacturer, model, passengers,
-    } = obj;
-    return {
-      infoList: (
-        <ul className="preview__list">
-
-          <li className="preview__field">
-            Name:
-            {' '}
-            <span>{name}</span>
-          </li>
-          <li className="preview__field">
-            Cost :
-            {' '}
-            <span>{cost}</span>
-          </li>
-          <li className="preview__field">
-            Hyperdrive:
-            {' '}
-            <span>{hyperdrive}</span>
-          </li>
-          <li className="preview__field">
-            Length:
-            {' '}
-            <span>{length}</span>
-          </li>
-          <li className="preview__field">
-            Manufacturer:
-            {' '}
-            <span>{manufacturer}</span>
-          </li>
-          <li className="preview__field">
-            Model:
-            {' '}
-            <span>{model}</span>
-          </li>
-          <li className="preview__field">
-            Passengers:
-            {' '}
-            <span>{passengers}</span>
-          </li>
-        </ul>
-      ),
-      img: '../../../assets/img/motor.svg',
     };
   }
   if (tag === 'species') {
