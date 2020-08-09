@@ -20,14 +20,28 @@ export default class SwapiService {
   }
 
   async getElement(tag, id) {
+    if (id) {
+      if (tag === 'planets') {
+        return this.getPlanet(id);
+      }
+      if (tag === 'species') {
+        return this.getSpecies(id);
+      }
+      if (tag === 'people') {
+        return this.getPerson(id);
+      }
+    }
     if (tag === 'planets') {
-      return this.getPlanet(id);
+      return this.getAllPlanets();
+    }
+    if (tag === 'main page') {
+      return null;
     }
     if (tag === 'species') {
-      return this.getSpecies(id);
+      return this.getAllSpecies();
     }
     if (tag === 'people') {
-      return this.getPerson(id);
+      return this.getAllPeople();
     }
   }
 
@@ -48,12 +62,17 @@ export default class SwapiService {
 
   async getAllPlanets() {
     const res = await this.getData('planets');
-    return res.results;
+    return res;
   }
 
   async getAllPeople() {
     const res = await this.getData('people');
-    return res.results;
+    return res;
+  }
+
+  async getAllSpecies() {
+    const res = await this.getData('species');
+    return res;
   }
 
   _transformPerson(person) {

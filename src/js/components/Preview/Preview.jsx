@@ -15,16 +15,14 @@ class Preview extends React.Component {
   }
 
   updateData(service) {
-    console.log('alsdfk');
-    const { tabName } = this.props;
-    this.setState({tabName: tabName});
-    const { id } = this.state;
+    const { tabName, id } = this.props;
+    this.setState(() => ({tabName: tabName, id: id}));
     service.getElement(tabName, id)
       .then((res) => this.setState({ currentData: { ...res } }));
   }
 
   render() {
-    if (this.props.tabName !== this.state.tabName) {
+    if (this.props.tabName !== this.state.tabName || this.props.id !== this.state.id) {
       const service = new SwapiService();
       this.updateData(service);
     }

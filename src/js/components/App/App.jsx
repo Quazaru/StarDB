@@ -26,13 +26,25 @@ export default class App extends React.Component {
     });
   }
 
+  changeId(id) {
+    this.setState({ currentId: id });
+  }
+
   render() {
     const { currentTab, currentId } = this.state;
     return (
       <div className="container">
         <Header currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
         <Preview tabName={currentTab} id={currentId} />
-        <ItemList />
+        {currentTab !== 'main page'
+          ? (
+            <ItemList
+              tabName={currentTab}
+              id={currentId}
+              onClick={(id) => this.changeId(id)}
+            />
+          )
+          : null }
       </div>
     );
   }

@@ -1,6 +1,13 @@
+@import '../../../assets/css/variables.scss';
+
 .container {
   width: 90%;
   margin: 0 auto;
+}
+
+html, body {
+  background-image: url('../../../assets/img/asfalt-light.png');
+  background-color: $sub-black;
 }
 
 @media screen and (max-width: 560px) {
