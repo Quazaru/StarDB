@@ -20,7 +20,7 @@ class ItemList extends React.Component {
       const { name } = el;
       return (
         <li
-          className="item-list__item "
+          className={`item-list__item ${index + 1 === this.props.id ? 'active' : ''}`}
           key={name}
           onClick={() => this.props.onClick(index + 1)}
         >
@@ -29,7 +29,7 @@ class ItemList extends React.Component {
       );
     });
     return elements;
-  };
+  }
 
   render() {
     const { data } = this.state;
@@ -42,6 +42,12 @@ class ItemList extends React.Component {
     }
     return (
       <ul className="item-list">
+        <li
+          className="item-list__item "
+          onClick={() => this.props.onClick(Math.floor(Math.random() * 50 + 1))}
+        >
+          Random !
+        </li>
         {this.renderList(data)}
       </ul>
     );

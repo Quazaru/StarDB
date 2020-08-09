@@ -15,14 +15,14 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       currentTab: 'main page',
-      currentId: 30,
+      currentId: 1,
     };
   }
 
   changeTab(tab) {
-    this.setState(({ currentTab }) => {
+    this.setState(({ currentTab, currentId }) => {
       const newTab = tab.toLowerCase();
-      return { currentTab: newTab };
+      return { currentTab: newTab, currentId: 1 };
     });
   }
 
