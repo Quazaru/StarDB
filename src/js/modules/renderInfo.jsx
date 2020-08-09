@@ -13,7 +13,7 @@ const renderInfo = (tag, obj) => {
          </div>
        </div>
       ),
-      img: '../../../assets/img/starship.svg',
+      img: 'assets/img/starship.svg',
     };
   }
   if (!obj) {
@@ -23,7 +23,7 @@ const renderInfo = (tag, obj) => {
           <p>No infortmation</p>
         </div>
       ),
-      img: '../../../assets/img/page-not-found.svg',
+      img: 'assets/img/page-not-found.svg',
     };
   }
   if (tag === 'planets') {
@@ -71,7 +71,7 @@ const renderInfo = (tag, obj) => {
           </li>
         </ul>
       ),
-      img: '../../../assets/img/planet.svg',
+      img: 'assets/img/planet.svg',
     };
   } if (tag === 'people') {
     const {
@@ -118,7 +118,7 @@ const renderInfo = (tag, obj) => {
           </li>
         </ul>
       ),
-      img: '../../../assets/img/user.svg',
+      img: 'assets/img/user.svg',
     };
   }
   if (tag === 'species') {
@@ -168,7 +168,7 @@ const renderInfo = (tag, obj) => {
         </ul>
 
       ),
-      img: '../../../assets/img/alien.svg',
+      img: 'assets/img/alien.svg',
     };
   }
 };
