@@ -4,9 +4,10 @@
   font-size: 35px;
   font-family: 'ShareTechMono';
   position: relative;
+  display: flex;
+  justify-content: center;
   &__star {
     color: lighten($color: $sub-gray, $amount: 15%);
-    position: absolute;
     animation: 2s smoothRotate cubic-bezier(.35,.57,.79,.55) infinite ;
   }
 }

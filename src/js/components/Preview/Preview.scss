@@ -44,3 +44,22 @@
   text-align: center;
   margin-top: 10px;
 }
+
+@media screen and (max-width: 700px) {
+  .preview {
+    display: block;
+    text-align: center;
+    height: auto;
+    &__img {
+      width: 100%;
+      img {
+        width: 40%;
+        margin: 0 auto;
+      }
+    }
+    &__body {
+      width: 100%;
+      border-left: none;
+    }
+  }
+}

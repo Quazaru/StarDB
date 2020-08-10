@@ -39,15 +39,17 @@ class ItemList extends React.Component {
       );
     }
     return (
-      <ul className="item-list">
-        <li
-          className="item-list__item "
+      <div className="item-list">
+        <button
+          className="item-list__item item-list__random"
           onClick={() => this.props.onClick(Math.floor(Math.random() * 50 + 1))}
         >
           Random !
-        </li>
-        {this.renderList(this.props.data)}
-      </ul>
+        </button>
+        <ul className="item-list__ul">
+          {this.renderList(this.props.data)}
+        </ul>
+      </div>
     );
   }
 }
