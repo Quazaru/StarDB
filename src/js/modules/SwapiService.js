@@ -41,55 +41,18 @@ export default class SwapiService {
     return this.getData(tag);
   }
 
-  async getPlanet(id) {
-    const planet = await this.getData('planets', id);
-    return this._transformPlanet(planet);
-  }
-
-  async getPerson(id) {
-    const person = await this.getData('people', id);
-    return this._transformPerson(person);
-  }
-
-  async getSpecies(id) {
-    const ship = await this.getData('species', id);
-    return this._transformSpecies(ship);
-  }
-
-  async getAllPlanets() {
-    const res = await this.getData('planets');
-    const { count } = res;
-    let response = [...res.results];
-    for (let i = 2; i <= (count / 10); i += 1) {
-      const temp = await this.getData('planets', `?page=${i}`);
-      const newArr = temp.results;
-      response = [...response, ...newArr];
+  async getTransformedElement(tag) {
+    const data = await this.getData(tag);
+    if (tag === 'planets') {
+      return data.map((el) => this._transformPlanet(el));
     }
-    return response;
-  }
-
-  async getAllPeople() {
-    const res = await this.getData('people');
-    const { count } = res;
-    let response = [...res.results];
-    for (let i = 2; i <= (count / 10); i += 1) {
-      const temp = await this.getData('people', `?page=${i}`);
-      const newArr = temp.results;
-      response = [...response, ...newArr];
+    if (tag === 'species') {
+      return data.map((el) => this._transformSpecies(el));
     }
-    return response;
-  }
-
-  async getAllSpecies() {
-    const res = await this.getData('species');
-    const { count } = res;
-    let response = [...res.results];
-    for (let i = 2; i <= (count / 10); i += 1) {
-      const temp = await this.getData('species', `?page=${i}`);
-      const newArr = temp.results;
-      response = [...response, ...newArr];
+    if (tag === 'people') {
+      return data.map((el) => this._transformPerson(el));
     }
-    return response;
+    return null;
   }
 
   _transformPerson(person) {

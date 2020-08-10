@@ -3,21 +3,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-import SwapiService from '../../modules/SwapiService';
 import Spinner from '../Spinner/Spinner.jsx';
 import './ItemList.scss';
 
-const service = new SwapiService();
-
 class ItemList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      isLoading: true,
-    };
-  }
-
   renderList(data) {
     if (!data) {
       return;
@@ -26,9 +15,9 @@ class ItemList extends React.Component {
       const { name } = el;
       return (
         <li
-          className={`item-list__item ${index + 1 === this.props.id ? 'active' : ''}`}
+          className={`item-list__item ${index === this.props.id ? 'active' : ''}`}
           key={name}
-          onClick={() => this.props.onClick(index + 1)}
+          onClick={() => this.props.onClick(index)}
         >
           {name}
         </li>
@@ -38,17 +27,8 @@ class ItemList extends React.Component {
   }
 
   render() {
-    const { data, isLoading } = this.state;
-    const { update } = this.props;
-    const { tabName } = this.props;
+    const { isLoading, update, tabName } = this.props;
     if (tabName !== 'main page' && update) {
-      service.getElement(tabName)
-        .then((res) => {
-          console.log(res);
-          if (data !== res) {
-            this.setState({ data: res, isLoading: false });
-          }
-        });
       this.props.onUpdate();
     }
     if (isLoading) {
@@ -66,7 +46,7 @@ class ItemList extends React.Component {
         >
           Random !
         </li>
-        {this.renderList(data)}
+        {this.renderList(this.props.data)}
       </ul>
     );
   }

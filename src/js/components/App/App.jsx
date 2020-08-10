@@ -3,6 +3,8 @@ import './App.scss';
 import Header from '../Header/Header.jsx';
 import Preview from '../Preview/Preview.jsx';
 import ItemList from '../ItemList/ItemList.jsx';
+
+import SwapiService from '../../modules/SwapiService';
 // import ItemList from  '../ItemList/ItemList.jsx';
 // import PersonDetail from  '../PersonDetail/PersonDetail.jsx';
 // import PlanetDetails from  '../PlanetDetails/PlanetDetails.jsx';
@@ -14,15 +16,26 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       currentTab: 'main page',
-      currentId: 1,
-      update: false,
+      currentId: 0,
+      currentData: null,
+      isLoading: true,
     };
   }
 
+  getData(tab) {
+    this.setState({ isLoading: true });
+    const service = new SwapiService();
+    service.getTransformedElement(tab)
+      .then((res) => {
+        this.setState({ currentData: res, isLoading: false });
+      });
+  }
+
   changeTab(tab) {
+    this.getData(tab.toLowerCase());
     this.setState(({ currentTab, currentId }) => {
       const newTab = tab.toLowerCase();
-      return { currentTab: newTab, currentId: 1, update: true };
+      return { currentTab: newTab, currentId: 0, update: true };
     });
   }
 
@@ -30,27 +43,23 @@ export default class App extends React.Component {
     this.setState({ currentId: id });
   }
 
-  updateHandler() {
-    this.setState(({ update }) => {
-      const newUpdate = !update;
-      return { update: newUpdate };
-    });
-  }
-
   render() {
-    const { currentTab, currentId, update } = this.state;
+    const { currentTab, currentId, currentData, isLoading } = this.state;
     return (
       <div className="container">
         <Header currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
-        <Preview tabName={currentTab} id={currentId} />
+        <Preview
+          tabName={currentTab}
+          data={currentData ? currentData[currentId] : null}
+          isLoading={isLoading}
+        />
         {currentTab !== 'main page'
           ? (
             <ItemList
-              tabName={currentTab}
               id={currentId}
               onClick={(id) => this.changeId(id)}
-              update={update}
-              onUpdate={() => this.updateHandler()}
+              data={currentData}
+              isLoading={isLoading}
             />
           )
           : null }
