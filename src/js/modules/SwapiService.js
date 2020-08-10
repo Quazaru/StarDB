@@ -12,11 +12,18 @@ export default class SwapiService {
   }
 
   async getData(name, id = '') {
-    const response = await this.getResourse(`/${name}/${id}`);
-    if (id) {
-      return response;
+    const res = await this.getResourse(`/${name}`);
+    const { count } = res;
+    let response = [...res.results];
+    for (let i = 2; i <= (count / 10); i += 1) {
+      const temp = await this.getResourse(`/${name}/?page=${i}`);
+      const newArr = temp.results;
+      response = [...response, ...newArr];
     }
-    return response.results;
+    if (id) {
+      return response[id - 1];
+    }
+    return response;
   }
 
   async getElement(tag, id) {
@@ -31,18 +38,7 @@ export default class SwapiService {
         return this.getPerson(id);
       }
     }
-    if (tag === 'planets') {
-      return this.getAllPlanets();
-    }
-    if (tag === 'main page') {
-      return null;
-    }
-    if (tag === 'species') {
-      return this.getAllSpecies();
-    }
-    if (tag === 'people') {
-      return this.getAllPeople();
-    }
+    return this.getData(tag);
   }
 
   async getPlanet(id) {
@@ -62,17 +58,38 @@ export default class SwapiService {
 
   async getAllPlanets() {
     const res = await this.getData('planets');
-    return res;
+    const { count } = res;
+    let response = [...res.results];
+    for (let i = 2; i <= (count / 10); i += 1) {
+      const temp = await this.getData('planets', `?page=${i}`);
+      const newArr = temp.results;
+      response = [...response, ...newArr];
+    }
+    return response;
   }
 
   async getAllPeople() {
     const res = await this.getData('people');
-    return res;
+    const { count } = res;
+    let response = [...res.results];
+    for (let i = 2; i <= (count / 10); i += 1) {
+      const temp = await this.getData('people', `?page=${i}`);
+      const newArr = temp.results;
+      response = [...response, ...newArr];
+    }
+    return response;
   }
 
   async getAllSpecies() {
     const res = await this.getData('species');
-    return res;
+    const { count } = res;
+    let response = [...res.results];
+    for (let i = 2; i <= (count / 10); i += 1) {
+      const temp = await this.getData('species', `?page=${i}`);
+      const newArr = temp.results;
+      response = [...response, ...newArr];
+    }
+    return response;
   }
 
   _transformPerson(person) {

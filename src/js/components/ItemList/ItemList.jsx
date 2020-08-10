@@ -1,5 +1,10 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import SwapiService from '../../modules/SwapiService';
+import Spinner from '../Spinner/Spinner.jsx';
 import './ItemList.scss';
 
 const service = new SwapiService();
@@ -9,6 +14,7 @@ class ItemList extends React.Component {
     super(props);
     this.state = {
       data: null,
+      isLoading: true,
     };
   }
 
@@ -32,13 +38,25 @@ class ItemList extends React.Component {
   }
 
   render() {
-    const { data } = this.state;
+    const { data, isLoading } = this.state;
+    const { update } = this.props;
     const { tabName } = this.props;
-    if (tabName !== 'main page') {
+    if (tabName !== 'main page' && update) {
       service.getElement(tabName)
         .then((res) => {
-          this.setState({ data: res });
+          console.log(res);
+          if (data !== res) {
+            this.setState({ data: res, isLoading: false });
+          }
         });
+      this.props.onUpdate();
+    }
+    if (isLoading) {
+      return (
+        <ul className="item-list">
+          <Spinner />
+        </ul>
+      );
     }
     return (
       <ul className="item-list">

@@ -19,7 +19,8 @@ class Preview extends React.Component {
     const { tabName, id } = this.props;
     this.setState(() => ({ tabName, id }));
     service.getElement(tabName, id)
-      .then((res) => this.setState({ currentData: { ...res }, isLoading: false }));
+      .then((res) => this.setState({ currentData: { ...res }, isLoading: false }))
+      .catch(() => this.setState({ currentData: null, isLoading: false }));
   }
 
   render() {
@@ -31,19 +32,22 @@ class Preview extends React.Component {
     const { tabName } = this.props;
     const { isLoading } = this.state;
     const { infoList, img = '../../../assets/img/planet.svg' } = renderInfo(tabName, this.state.currentData);
+    if (isLoading && tabName !== 'main page') {
+      return (
+        <div className="preview">
+          <Spinner />
+        </div>
+      );
+    }
+
     return (
       <div className="preview">
-        {isLoading && tabName !== 'main page' ? <Spinner />
-          : (
-            <div className="preview">
-              <div className="preview__img">
-                <img src={img} alt="planet-default" />
-              </div>
-              <div className="preview__body">
-                {infoList}
-              </div>
-            </div>
-          )}
+        <div className="preview__img">
+          <img src={img} alt="planet-default" />
+        </div>
+        <div className="preview__body">
+          {infoList}
+        </div>
       </div>
     );
   }

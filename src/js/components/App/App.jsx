@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './App.scss';
 import Header from '../Header/Header.jsx';
 import Preview from '../Preview/Preview.jsx';
@@ -16,13 +15,14 @@ export default class App extends React.Component {
     this.state = {
       currentTab: 'main page',
       currentId: 1,
+      update: false,
     };
   }
 
   changeTab(tab) {
     this.setState(({ currentTab, currentId }) => {
       const newTab = tab.toLowerCase();
-      return { currentTab: newTab, currentId: 1 };
+      return { currentTab: newTab, currentId: 1, update: true };
     });
   }
 
@@ -30,8 +30,15 @@ export default class App extends React.Component {
     this.setState({ currentId: id });
   }
 
+  updateHandler() {
+    this.setState(({ update }) => {
+      const newUpdate = !update;
+      return { update: newUpdate };
+    });
+  }
+
   render() {
-    const { currentTab, currentId } = this.state;
+    const { currentTab, currentId, update } = this.state;
     return (
       <div className="container">
         <Header currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
@@ -42,6 +49,8 @@ export default class App extends React.Component {
               tabName={currentTab}
               id={currentId}
               onClick={(id) => this.changeId(id)}
+              update={update}
+              onUpdate={() => this.updateHandler()}
             />
           )
           : null }

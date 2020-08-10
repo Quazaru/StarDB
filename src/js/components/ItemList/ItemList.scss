@@ -1,9 +1,11 @@
 @import '../../../assets/css/variables.scss';
 
 .item-list {
+  width: 60%;
+
+  text-align: center;
   padding: 0;
   font-family: Comfortaa;
-  width: 100%;
   background-color: $main-black;
   border-radius: 8px;
   margin-top: 20px;
