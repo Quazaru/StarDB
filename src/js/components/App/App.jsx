@@ -3,6 +3,7 @@ import './App.scss';
 import Header from '../Header/Header.jsx';
 import Preview from '../Preview/Preview.jsx';
 import ItemList from '../ItemList/ItemList.jsx';
+import MainPage from '../MainPage/MainPage.jsx';
 
 import SwapiService from '../../modules/SwapiService';
 // import ItemList from  '../ItemList/ItemList.jsx';
@@ -48,6 +49,9 @@ export default class App extends React.Component {
 
   render() {
     const { currentTab, currentId, currentData, isLoading } = this.state;
+    if (currentTab === 'main page') {
+      return <MainPage currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />;
+    }
     return (
       <div className="container">
         <Header currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
