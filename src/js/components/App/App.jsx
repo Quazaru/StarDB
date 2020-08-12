@@ -28,6 +28,9 @@ export default class App extends React.Component {
     service.getTransformedElement(tab)
       .then((res) => {
         this.setState({ currentData: res, isLoading: false });
+      })
+      .catch(() => {
+        this.setState({ currentData: null, isLoading: false });
       });
   }
 
@@ -59,6 +62,7 @@ export default class App extends React.Component {
               id={currentId}
               onClick={(id) => this.changeId(id)}
               data={currentData}
+              currentTab={currentTab}
               isLoading={isLoading}
             />
           )
