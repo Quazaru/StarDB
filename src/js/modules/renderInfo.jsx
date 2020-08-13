@@ -42,4 +42,3 @@ const renderInfo = (template, obj, tabName) => {
 };
 
 export default renderInfo;
-
