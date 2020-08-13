@@ -6,6 +6,7 @@ import ItemList from '../ItemList/ItemList.jsx';
 import MainPage from '../MainPage/MainPage.jsx';
 
 import SwapiService from '../../modules/SwapiService';
+
 // import ItemList from  '../ItemList/ItemList.jsx';
 // import PersonDetail from  '../PersonDetail/PersonDetail.jsx';
 // import PlanetDetails from  '../PlanetDetails/PlanetDetails.jsx';
@@ -48,9 +49,14 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { currentTab, currentId, currentData, isLoading } = this.state;
+    const {
+      currentTab, currentId, currentData, isLoading,
+    } = this.state;
     if (currentTab === 'main page') {
-      return <MainPage currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />;
+      return (
+        <MainPage currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)}>
+        </MainPage>
+      );
     }
     return (
       <div className="container">
@@ -60,17 +66,14 @@ export default class App extends React.Component {
           data={currentData ? currentData[currentId] : null}
           isLoading={isLoading}
         />
-        {currentTab !== 'main page'
-          ? (
-            <ItemList
-              id={currentId}
-              onClick={(id) => this.changeId(id)}
-              data={currentData}
-              currentTab={currentTab}
-              isLoading={isLoading}
-            />
-          )
-          : null }
+
+        <ItemList
+          id={currentId}
+          onClick={(id) => this.changeId(id)}
+          data={currentData}
+          currentTab={currentTab}
+          isLoading={isLoading}
+        />
       </div>
     );
   }
