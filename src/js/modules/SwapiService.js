@@ -12,11 +12,18 @@ export default class SwapiService {
   }
 
   async getData(name, id = '') {
-    const response = await this.getResourse(`/${name}/${id}`);
-    if (id) {
-      return response;
+    const res = await this.getResourse(`/${name}`);
+    const { count } = res;
+    let response = [...res.results];
+    for (let i = 2; i <= (count / 10); i += 1) {
+      const temp = await this.getResourse(`/${name}/?page=${i}`);
+      const newArr = temp.results;
+      response = [...response, ...newArr];
     }
-    return response.results;
+    if (id) {
+      return response[id - 1];
+    }
+    return response;
   }
 
   async getElement(tag, id) {
@@ -31,48 +38,21 @@ export default class SwapiService {
         return this.getPerson(id);
       }
     }
+    return this.getData(tag);
+  }
+
+  async getTransformedElement(tag) {
+    const data = await this.getData(tag);
     if (tag === 'planets') {
-      return this.getAllPlanets();
-    }
-    if (tag === 'main page') {
-      return null;
+      return data.map((el) => this._transformPlanet(el));
     }
     if (tag === 'species') {
-      return this.getAllSpecies();
+      return data.map((el) => this._transformSpecies(el));
     }
     if (tag === 'people') {
-      return this.getAllPeople();
+      return data.map((el) => this._transformPerson(el));
     }
-  }
-
-  async getPlanet(id) {
-    const planet = await this.getData('planets', id);
-    return this._transformPlanet(planet);
-  }
-
-  async getPerson(id) {
-    const person = await this.getData('people', id);
-    return this._transformPerson(person);
-  }
-
-  async getSpecies(id) {
-    const ship = await this.getData('species', id);
-    return this._transformSpecies(ship);
-  }
-
-  async getAllPlanets() {
-    const res = await this.getData('planets');
-    return res;
-  }
-
-  async getAllPeople() {
-    const res = await this.getData('people');
-    return res;
-  }
-
-  async getAllSpecies() {
-    const res = await this.getData('species');
-    return res;
+    return null;
   }
 
   _transformPerson(person) {

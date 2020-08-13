@@ -1,44 +1,30 @@
+/* eslint-disable import/extensions */
 import React from 'react';
 import './Preview.scss';
-import SwapiService from '../../modules/SwapiService';
 import renderInfo from '../../modules/renderInfo.jsx';
+import Spinner from '../Spinner/Spinner.jsx';
+import templates from '../../../assets/data assets/itemListTemplate';
 
-
-class Preview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tabName: this.props.tabName,
-      id: this.props.id,
-      currentData: false,
-    };
-  }
-
-  updateData(service) {
-    const { tabName, id } = this.props;
-    this.setState(() => ({tabName: tabName, id: id}));
-    service.getElement(tabName, id)
-      .then((res) => this.setState({ currentData: { ...res } }));
-  }
-
-  render() {
-    if (this.props.tabName !== this.state.tabName || this.props.id !== this.state.id) {
-      const service = new SwapiService();
-      this.updateData(service);
-    }
-    const { tabName } = this.props;
-    const { infoList, img = '../../../assets/img/planet.svg' } = renderInfo(tabName, this.state.currentData);
+const Preview = (props) => {
+  const { tabName, isLoading, data } = props;
+  const { infoList, img = '../../../assets/img/planet.svg' } = renderInfo(templates[tabName], data, tabName);
+  if (isLoading && tabName !== 'main page') {
     return (
       <div className="preview">
-        <div className="preview__img">
-          <img src={img} alt="planet-default" />
-        </div>
-        <div className="preview__body">
-          {infoList}
-        </div>
+        <Spinner />
       </div>
     );
   }
-}
+  return (
+    <div className="preview">
+      <div className="preview__img">
+        <img src={img} alt="planet-default" />
+      </div>
+      <div className="preview__body">
+        {infoList}
+      </div>
+    </div>
+  );
+};
 
 export default Preview;
