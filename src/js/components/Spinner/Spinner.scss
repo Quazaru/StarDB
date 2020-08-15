@@ -3,6 +3,9 @@
   50% { transform: rotate(180deg) }
   100% { transform: rotate(360deg) }
 }
+.loading-spinner {
+  margin: 0 auto;
+}
 .ldio-jfo7b15ssh div {
   position: absolute;
   animation: ldio-jfo7b15ssh 1s linear infinite;
@@ -17,9 +20,9 @@
 .loadingio-spinner-eclipse-jba5f2z49ls {
   width: 200px;
   height: 200px;
-  display: inline-block;
   overflow: hidden;
   background: #f1f2f300;
+  margin: 0 auto;
 }
 .ldio-jfo7b15ssh {
   width: 100%;

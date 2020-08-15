@@ -37,6 +37,15 @@
       font-family: ShareTechMono;
     }
   }
+
+  // DARK THEME
+  &_dark {
+    background-color: transparent;
+    color: #fff;
+    .preview__body {
+      border: none;
+    }
+  }
 }
 
 .no-information {

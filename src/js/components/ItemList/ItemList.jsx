@@ -3,8 +3,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
-import Spinner from '../Spinner/Spinner.jsx';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary.jsx';
+import withDataLoadingFn from '../../hoc-helpers/withData.jsx';
+import { MutualDataConsumer } from '../MutualData-context/MutualData-context.jsx';
+
 import './ItemList.scss';
 
 class ItemList extends React.Component {
@@ -44,18 +45,6 @@ class ItemList extends React.Component {
   }
 
   render() {
-    const { isLoading, update, tabName } = this.props;
-    if (tabName !== 'main page' && update) {
-      this.props.onUpdate();
-    }
-    if (isLoading) {
-      return (
-        <ul className="item-list">
-          <Spinner />
-        </ul>
-      );
-    }
-
     const RandomizeButton = (
       <button
         type="button"
@@ -68,16 +57,18 @@ class ItemList extends React.Component {
     const elementList = this.renderList(this.props.data); // prepared buttons
 
     return (
-      <ErrorBoundary>
-        <div className="item-list">
-          {RandomizeButton}
-          <ul className="item-list__ul">
-            {elementList}
-          </ul>
-        </div>
-      </ErrorBoundary>
+      <MutualDataConsumer>
+        {({ theme }) => (
+          <div className={theme === 'dark' ? 'item-list item-list_dark' : 'item-list'}>
+            {RandomizeButton}
+            <ul className="item-list__ul">
+              {elementList}
+            </ul>
+          </div>
+        )}
+      </MutualDataConsumer>
     );
   }
 }
 
-export default ItemList;
+export default withDataLoadingFn(ItemList);

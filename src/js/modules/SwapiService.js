@@ -55,6 +55,10 @@ export default class SwapiService {
     return null;
   }
 
+  async getAllPlanets() {
+    return this.getTransformedElement('planets');
+  }
+
   _transformPerson(person) {
     return {
       name: person.name,

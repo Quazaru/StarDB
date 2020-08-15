@@ -1,5 +1,11 @@
 const devlogs = [
   {
+    version: '1.25',
+    title: 'Dark theme!!',
+    description: 'Click on the switch button on the top-left to see dark theme',
+    date: '15th of August, 2020',
+  },
+  {
     version: '1.21',
     title: 'Add this block',
     description: 'Now you can see our progress and innovations',
