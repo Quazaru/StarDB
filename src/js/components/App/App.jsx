@@ -22,18 +22,16 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: useMemo(() => window.location.pathname.match(/[a-z]*/gm)[1], []),
+      currentTab: window.location.pathname.match(/[a-z]*/gm)[1] ? window.location.pathname.match(/[a-z]*/gm)[1] : 'main page',
       currentId: 1,
       currentData: null,
       isLoading: true,
+      onUpdating: false,
       theme: 'light',
     };
   }
 
   getData(tab) {
-    if (tab === 'main page') {
-      return;
-    }
     this.setState({ isLoading: true });
     const service = new SwapiService();
     service.getTransformedElement(tab)
@@ -75,8 +73,12 @@ export default class App extends React.Component {
 
   render() {
     const {
-      currentTab, currentId, currentData, isLoading, theme,
+      currentTab, currentId, currentData, isLoading, theme, onUpdating,
     } = this.state;
+    if (!currentData && currentTab !== '' && !onUpdating) {
+      this.changeTab(window.location.pathname.match(/[a-z]*/gm)[1]);
+      this.setState({onUpdating: true});
+    }
     return (
       <MutualDataProvider value={{ theme: 'light' }}>
         <BrowserRouter>

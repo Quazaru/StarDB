@@ -16,11 +16,13 @@ class InfoPage extends React.Component {
     super(props);
     this.state = {
       currentData: this.props.currentData,
-      isLoading: this.props.isLoading,
     };
   }
 
   getData(tab) {
+    if (tab === 'main page' || tab === this.props.currentTab) {
+      return;
+    }
     const service = new SwapiService();
     service.getTransformedElement(tab)
       .then((res) => {
@@ -37,13 +39,11 @@ class InfoPage extends React.Component {
   render() {
     const {
       theme, currentTab, currentId,
-      changeTheme, changeTab, changeId,
+      changeTheme, changeTab, changeId, isLoading, currentData,
     } = this.props;
-    let { currentData, isLoading } = this.state;
-    this.getData(currentTab);
     if (!currentData) {
       return (
-        <Spinner></Spinner>
+        <Spinner />
       );
     }
     return (

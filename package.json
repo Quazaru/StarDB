@@ -49,8 +49,8 @@
     "prop-types": "^15.7.2",
     "pug": "^3.0.0",
     "pug-loader": "^2.4.0",
-    "react": "^16.3.2",
-    "react-dom": "^16.13.1",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "react-h5-audio-player": "^3.2.0",
     "react-router-dom": "^5.2.0"
   },
