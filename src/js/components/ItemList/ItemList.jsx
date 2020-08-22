@@ -3,9 +3,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
+import PropTypes from 'prop-types';
 import withDataLoadingFn from '../../hoc-helpers/withData.jsx';
 import { MutualDataConsumer } from '../MutualData-context/MutualData-context.jsx';
-
+import { withRouter } from 'react-router-dom';
 import './ItemList.scss';
 
 class ItemList extends React.Component {
@@ -13,7 +14,8 @@ class ItemList extends React.Component {
     if (!data) {
       return;
     }
-    const { currentTab } = this.props;
+    const { currentTab, history } = this.props;
+
     const elements = data.map((el, index) => {
       const { name } = el;
       let subInfo = '';
@@ -33,7 +35,10 @@ class ItemList extends React.Component {
         <li
           className={`item-list__item ${index === this.props.id ? 'active' : ''}`}
           key={name}
-          onClick={() => this.props.onClick(index)}
+          onClick={() => {
+            history.push(index);
+            this.props.onClick(index);
+          }}
         >
           {name}
           {' '}
@@ -55,7 +60,6 @@ class ItemList extends React.Component {
       </button>
     );
     const elementList = this.renderList(this.props.data); // prepared buttons
-
     return (
       <MutualDataConsumer>
         {({ theme }) => (
@@ -71,4 +75,12 @@ class ItemList extends React.Component {
   }
 }
 
-export default withDataLoadingFn(ItemList);
+ItemList.defaultProps = {
+  id: 1,
+};
+
+ItemList.propTypes = {
+  id: PropTypes.number.isRequired,
+};
+
+export default withRouter(withDataLoadingFn(ItemList));

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './MainPage.scss';
+import './WelcomePage.scss';
 import Logo from '../Logo/Logo.jsx';
 import Navigation from '../Navigation/Navigation.jsx';
 import DevelopmentProgress from '../DevelopmentProgress/DevelopmentProgress.jsx';
@@ -8,7 +8,7 @@ import DevelopmentProgress from '../DevelopmentProgress/DevelopmentProgress.jsx'
 import devLogs from '../../../assets/data assets/devLogs';
 import { MutualDataConsumer } from '../MutualData-context/MutualData-context.jsx';
 
-const MainPage = (props) => {
+const WelcomePage = (props) => {
   const { currentTab, onTabChange } = props;
   return (
     <MutualDataConsumer>
@@ -36,4 +36,4 @@ const MainPage = (props) => {
   );
 };
 
-export default MainPage;
+export default WelcomePage;

@@ -7,7 +7,7 @@ const ThemeSwitch = (props) => (
     <input
       type="checkbox"
       className="switch__checkbox"
-      checked={props.theme === 'dark'}
+      defaultChecked={props.theme === 'dark'}
     />
     <span className="switch__slider" onClick={props.onClick} />
     <img src="../../../assets/img/moon.svg" alt="dark-theme-moon" className="switch__img" />

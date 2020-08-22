@@ -2,9 +2,9 @@ import React from 'react';
 
 const img = {
   'main page': 'assets/img/starship.svg',
-  people: 'assets/img/user.svg',
-  planets: 'assets/img/planet.svg',
-  species: 'assets/img/alien.svg',
+  people: '../../../assets/img/user.svg',
+  planets: '../../../assets/img/planet.svg',
+  species: '../../../assets/img/alien.svg',
 };
 
 const renderInfo = (template, obj, tabName) => {

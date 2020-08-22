@@ -29,12 +29,14 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: ['@babel/polyfill', './js/script.js'],
   output: {
+    publicPath: '/',
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
   optimization: optimize(),
 
   devServer: {
+    historyApiFallback: true,
     port: 3800,
     hot: isDev,
   },

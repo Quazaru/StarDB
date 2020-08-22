@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './App.scss';
+// Router
+import { BrowserRouter, Route } from 'react-router-dom';
+
 import Header from '../Header/Header.jsx';
 import Preview from '../Preview/Preview.jsx';
 import ItemList from '../ItemList/ItemList.jsx';
-import MainPage from '../MainPage/MainPage.jsx';
 import ThemeSwitch from '../ThemeSwith/ThemeSwitch.jsx';
+import MainPage from '../pages/MainPage.jsx';
+import InfoPage from '../pages/InfoPage.jsx';
+import GoBackBtn from '../GoBackBtn/GoBackBtn.jsx';
 
 import SwapiService from '../../modules/SwapiService';
 
@@ -13,18 +18,12 @@ import ErrorBoundary from '../ErrorBoundary/ErrorBoundary.jsx';
 // context Providers
 import { MutualDataProvider, MutualDataConsumer } from '../MutualData-context/MutualData-context.jsx';
 
-// import ItemList from  '../ItemList/ItemList.jsx';
-// import PersonDetail from  '../PersonDetail/PersonDetail.jsx';
-// import PlanetDetails from  '../PlanetDetails/PlanetDetails.jsx';
-// import RandomPlanet from  '../RandomPlanet/RandomPlanet.jsx';
-// import StarshipDetails from  '../StarshipDetails/StarshipDetails.jsx';
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'main page',
-      currentId: 0,
+      currentTab: useMemo(() => window.location.pathname.match(/[a-z]*/gm)[1], []),
+      currentId: 1,
       currentData: null,
       isLoading: true,
       theme: 'light',
@@ -32,11 +31,17 @@ export default class App extends React.Component {
   }
 
   getData(tab) {
+    if (tab === 'main page') {
+      return;
+    }
     this.setState({ isLoading: true });
     const service = new SwapiService();
     service.getTransformedElement(tab)
       .then((res) => {
         this.setState({ currentData: res, isLoading: false });
+        const data = JSON.stringify(res);
+        localStorage.setItem('currentData', data);
+        localStorage.setItem('isLoading', null);
       })
       .catch(() => {
         this.setState({ currentData: null, isLoading: false });
@@ -47,6 +52,7 @@ export default class App extends React.Component {
     this.getData(tab.toLowerCase());
     this.setState(({ currentTab, currentId }) => {
       const newTab = tab.toLowerCase();
+      localStorage.setItem('currentTab', newTab);
       return { currentTab: newTab, currentId: 0, update: true };
     });
   }
@@ -54,13 +60,16 @@ export default class App extends React.Component {
   changeTheme() {
     this.setState(({ theme }) => {
       if (theme === 'light') {
+        localStorage.setItem('theme', 'dark');
         return ({ theme: 'dark' });
       }
+      localStorage.setItem('theme', 'light');
       return { theme: 'light' };
     });
   }
 
   changeId(id) {
+    localStorage.setItem('currentId', id);
     this.setState({ currentId: id });
   }
 
@@ -68,40 +77,66 @@ export default class App extends React.Component {
     const {
       currentTab, currentId, currentData, isLoading, theme,
     } = this.state;
-    if (currentTab === 'main page') {
-      return (
-        <MutualDataProvider value={{ theme }}>
-          <div className="container">
-            <ThemeSwitch theme={theme} onClick={() => this.changeTheme()} />
-            <MainPage currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
-          </div>
-        </MutualDataProvider>
-      );
-    }
     return (
-      <div className="container">
-        <ErrorBoundary>
-          <MutualDataProvider value={{ theme, isLoading }}>
-            <ThemeSwitch theme={theme} onClick={() => this.changeTheme()} />
-            <div className="container">
-              <Header currentTab={currentTab} onTabChange={(tab) => this.changeTab(tab)} />
-              <Preview
-                tabName={currentTab}
-                data={currentData ? currentData[currentId] : null}
-                isLoading={isLoading}
-              />
-
-              <ItemList
-                id={currentId}
-                onClick={(id) => this.changeId(id)}
-                data={currentData}
+      <MutualDataProvider value={{ theme: 'light' }}>
+        <BrowserRouter>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <MainPage
+                theme={theme}
                 currentTab={currentTab}
+                currentData={currentData}
                 isLoading={isLoading}
+                changeTheme={() => this.changeTheme()}
+                changeTab={(tab) => this.changeTab(tab)}
               />
-            </div>
-          </MutualDataProvider>
-        </ErrorBoundary>
-      </div>
+            )}
+          />
+          <Route
+            exact
+            path="/:tab"
+            render={({ match }) => {
+              const { LocationTab } = match.params;
+              return (
+                <>
+                  <GoBackBtn />
+                  <InfoPage
+                    onGettingData={() => this.getData()}
+                    theme={theme}
+                    currentTab={currentTab}
+                    currentId={currentId}
+                    currentData={currentData}
+                    isLoading={isLoading}
+                    changeTheme={() => this.changeTheme()}
+                    changeTab={(LocationTab) => this.changeTab(LocationTab)}
+                    changeId={(id) => this.changeId(id)}
+                  />
+                </>
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/:tab/:id"
+            render={({ match }) => {
+              const { tab: LocationTab, id: LocationId } = match.params;
+              return (
+                <>
+                  <GoBackBtn onClick={(tab) => this.changeTab(tab)} />
+                  <Preview
+                    tabName={LocationTab}
+                    data={currentData ? currentData[LocationId] : null}
+                    isLoading={isLoading}
+                  />
+                </>
+              );
+            }}
+          />
+        </BrowserRouter>
+      </MutualDataProvider>
+
     );
   }
 }

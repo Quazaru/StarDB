@@ -17,7 +17,6 @@ const withDataLoadingFn = (Component) => class extends React.Component {
     return (
       <MutualDataConsumer>
         {({ theme, isLoading }) => {
-          console.log(isLoading);
           const { data } = this.props;
           if (!data || isLoading) {
             return (
