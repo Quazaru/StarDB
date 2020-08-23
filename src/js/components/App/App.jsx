@@ -51,7 +51,7 @@ export default class App extends React.Component {
     this.setState(({ currentTab, currentId }) => {
       const newTab = tab.toLowerCase();
       localStorage.setItem('currentTab', newTab);
-      return { currentTab: newTab, currentId: 0, update: true };
+      return { currentTab: newTab, currentId: 0 };
     });
   }
 
@@ -77,7 +77,7 @@ export default class App extends React.Component {
     } = this.state;
     if (!currentData && currentTab !== '' && !onUpdating) {
       this.changeTab(window.location.pathname.match(/[a-z]*/gm)[1]);
-      this.setState({onUpdating: true});
+      this.setState({ onUpdating: true });
     }
     return (
       <MutualDataProvider value={{ theme: 'light' }}>
@@ -98,21 +98,21 @@ export default class App extends React.Component {
           />
           <Route
             exact
-            path="/:tab"
+            path="/:tab/:id?"
             render={({ match }) => {
-              const { LocationTab } = match.params;
+              const { id: RouteId } = match.params;
+              console.log(+RouteId);
               return (
                 <>
-                  <GoBackBtn />
                   <InfoPage
                     onGettingData={() => this.getData()}
                     theme={theme}
                     currentTab={currentTab}
-                    currentId={currentId}
+                    currentId={isNaN(+RouteId) ? currentId : +RouteId}
                     currentData={currentData}
                     isLoading={isLoading}
                     changeTheme={() => this.changeTheme()}
-                    changeTab={(LocationTab) => this.changeTab(LocationTab)}
+                    changeTab={(tab) => this.changeTab(tab)}
                     changeId={(id) => this.changeId(id)}
                   />
                 </>
@@ -120,21 +120,10 @@ export default class App extends React.Component {
             }}
           />
           <Route
-            exact
-            path="/:tab/:id"
-            render={({ match }) => {
-              const { tab: LocationTab, id: LocationId } = match.params;
-              return (
-                <>
-                  <GoBackBtn onClick={(tab) => this.changeTab(tab)} />
-                  <Preview
-                    tabName={LocationTab}
-                    data={currentData ? currentData[LocationId] : null}
-                    isLoading={isLoading}
-                  />
-                </>
-              );
-            }}
+            path="/:tab/:id?"
+            render={() => (
+              <GoBackBtn onClick={(tab) => this.changeTab(tab)} />
+            )}
           />
         </BrowserRouter>
       </MutualDataProvider>

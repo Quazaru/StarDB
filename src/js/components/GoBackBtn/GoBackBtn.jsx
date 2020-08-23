@@ -9,10 +9,9 @@ const GoBackBtn = (props) => {
       type="button"
       onClick={() => {
         history.goBack();
-        console.log(history);
-        console.log('MATH', match);
-        console.log(history.location.pathname);
-        console.log(window.location.pathname)
+        setTimeout(() => {
+          onClick(window.location.pathname.match(/[a-z]*/gm)[1]);
+        }, 500);
       }}
       className="go-back-btn"
     >

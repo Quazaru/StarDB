@@ -72,6 +72,7 @@ class InfoPage extends React.Component {
   }
 };
 InfoPage.defaultProps = {
+  currentId: 0,
   theme: 'light',
   currentData: localStorage.getItem('currentData') ? localStorage.getItem('currentData') : null,
 };
@@ -79,7 +80,7 @@ InfoPage.defaultProps = {
 InfoPage.propTypes = {
   theme: PropTypes.string,
   currentTab: PropTypes.string.isRequired,
-  currentId: PropTypes.number.isRequired,
+  currentId: PropTypes.number,
   currentData: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool.isRequired,
   changeTheme: PropTypes.func.isRequired,
